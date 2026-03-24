@@ -1,0 +1,7 @@
+import { Router } from "express";
+
+const postRouter = Router();
+
+postRouter.get("/")
+
+export default postRouter;

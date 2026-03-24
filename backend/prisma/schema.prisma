@@ -18,10 +18,11 @@ model Post {
   title String  @db.VarChar(255)
   content String @db.Text 
   published Boolean @default(false)
-  comments Comments[]
+  likes Int @default(0)
+  comments Comment[]
 }
 
-model Comments {
+model Comment {
   id Int @id @default(autoincrement())
   author String @db.VarChar(255)
   createdAt DateTime @default(now())

@@ -11,6 +11,7 @@ const _dirname = path.dirname(_filename);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api/login", loginRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/messages", commentRoutes);
 

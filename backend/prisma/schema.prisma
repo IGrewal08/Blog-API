@@ -31,3 +31,10 @@ model Comment {
   postId Int
 }
 
+model Admin {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  role String @default("ADMIN")
+}
+

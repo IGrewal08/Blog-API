@@ -14,6 +14,7 @@ const postController = {
             res.status(500).json({ message: "Error fetching post! "});
         }
     },
+    // attach JWT if one exists (show all posts) else only show unhidden posts
     getAllPosts: async (req, res) => {
         try {
             const { sort } = req.query.sort;

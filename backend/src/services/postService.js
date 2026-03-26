@@ -28,7 +28,7 @@ export const postService = {
                 }
             });
         } else if (sort == "Comments") { 
-            return await prisma.port.findMany({
+            return await prisma.post.findMany({
                 orderBy: {
                     comments: {
                         _count: order

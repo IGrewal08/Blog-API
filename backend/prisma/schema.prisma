@@ -1,11 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+  previewFeature = ["driverAdapters"]
 }
 
 datasource db {
@@ -13,28 +8,27 @@ datasource db {
 }
 
 model Post {
-  id  Int @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
-  title String  @db.VarChar(255)
-  content String @db.Text 
-  published Boolean @default(false)
-  likes Int @default(0)
-  comments Comment[]
+  title     String    @db.VarChar(255)
+  content   String
+  published Boolean   @default(false)
+  likes     Int       @default(0)
+  comments  Comment[]
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
-  author String @db.VarChar(255)
+  id        Int      @id @default(autoincrement())
+  author    String   @db.VarChar(255)
   createdAt DateTime @default(now())
-  message String @db.VarChar(100)
-  post Post @relation(fields: [postId], references: id)
-  postId Int
+  message   String   @db.VarChar(100)
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
 }
 
 model Admin {
-  id Int @id @default(autoincrement())
-  email String @unique
+  id       Int    @id @default(autoincrement())
+  email    String @unique
   password String
-  role String @default("ADMIN")
+  role     String @default("ADMIN")
 }
-

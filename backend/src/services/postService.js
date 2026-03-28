@@ -1,6 +1,6 @@
-import prisma from "../config/prisma";
+import prisma from "../config/prisma.js";
 
-export const postService = {
+const postService = {
     getPostById: async (id) => {
         return await prisma.post.findUnique({
             where: { 
@@ -13,7 +13,7 @@ export const postService = {
         });
     },
     getPostsSorted: async (sort) => {
-        order = "desc";
+        let order = "desc";
         if (sort == "Old") order = "asc"
 
         if (sort == "Likes") { 
@@ -84,3 +84,5 @@ export const postService = {
         });
     },
 }
+
+export default postService;

@@ -1,13 +1,9 @@
 import App from "./App";
 import Home from "./pages/Home";
-/*
-    Home page (dashboard)
-    Individual post page
-    About page
-    Contact page
-*/
-
-import App from "./App";
+import Post from "./pages/Post";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import ErrorPage from "./pages/ErrorPage";
 
 export const routes = [
     {

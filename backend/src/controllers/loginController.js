@@ -1,5 +1,5 @@
-import getAdmin from "../services/loginService";
-export async function loginController (req, res) {
+import getAdmin from "../services/loginService.js";
+export default async function loginController (req, res) {
     try {
         const { email, password } = req.body;
         const user = await getAdmin(email);

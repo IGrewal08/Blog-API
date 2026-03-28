@@ -1,6 +1,6 @@
-import prisma from "../config/prisma";
+import prisma from "../config/prisma.js";
 
-export async function getAdmin(email) {
+export default async function getAdmin(email) {
     return await prisma.admin.findUnique({
         where: { email }
     });

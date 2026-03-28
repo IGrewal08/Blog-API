@@ -1,29 +1,59 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 export default function Home() {
+    const [link, setLink] = useState("New");
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchPosts = async () => {
             try {
-                const data = await fetch("http://localhost:3000/api/posts/sort");
-                const json = await data.json();
-                setData(json);
+                const response = await fetch(`http://localhost:3000/api/posts?sort=${link}`);
+                const json = await response.json();
+                setData(Array.isArray(json) ? json : (json.rows || []));
             } catch (error) {
-                console.error(error);
+                console.error("Fetch error:", error);
+            } finally {
+                setLoading(false);
             }
-        }
-        fetchData();
-    }, []);
+        };
+
+        fetchPosts();
+    }, [link]);
+
     return (
         <>
+            <div>
+                <select value={link} onChange={(e) => setLink(e.target.value)}>
+                    <option value="New">New</option>
+                    <option value="Old">Old</option>
+                    <option value="Comments">Most Comments</option>
+                    <option value="Likes">Most Liked</option>
+                </select>
+            </div>
+            <div>
+                {loading ? (
+                    <div>Loading...</div>
+                ) : (
+                    data.map((blog) => {
+                        <Link key={blog.id} to={`/post/${blog.id}`}>
+                            <PostCard 
+                                title={blog.title}
+                                author={blog.author}
+                            />
+                        </Link>
+                    })
+                )}
+            </div>
         </>
     );
 }
 
-function postCard({ props }) {
+function PostCard({ title, author }) {
     return (
-        <div>
-            <h2>{props.title}</h2>
-            <h2>{props.author}</h2>
+        <div style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
+            <h2>{title}</h2>
+            <h2>By: {author}</h2>
         </div>
     );
 }

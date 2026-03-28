@@ -1,22 +1,24 @@
 import express from "express";
-import postRoutes from "./routes/postRoutes.js";
-import commentRoutes from "./routes/commentRoutes.js";
-
-import { fileURLToPath } from "node:url";
+import loginRouter from "./loginRoutes.js"
+import postRouter from "./postRoutes.js";
+import commentRouter from "./commentRoutes.js"
 
 const app = express();
-const _filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(_filename);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/login", loginRoutes);
-app.use("/api/posts", postRoutes);
-app.use("/api/messages", commentRoutes);
+app.use("/api/login", loginRouter);
+app.use("/api/posts", postRouter);
+app.use("/api/comments", commentRouter);
+
+app.use((req, res) => {
+    res.status(404).send("Error 404! Page Not Found.");
+});
 
 app.use((err, req, res, next) => {
-    res.status(404).send("Error 404! Page Not Found.");
+    console.error(err.stack);
+    res.status(500).send("Something broke on the server!");
 });
 
 const PORT = process.env.PORT || 3000;

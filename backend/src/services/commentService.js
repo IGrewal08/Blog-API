@@ -1,6 +1,6 @@
-import prisma from "../config/prisma";
+import prisma from "../config/prisma.js";
 
-export const commentService = {
+const commentService = {
     getAllComments: async (id) => {
         return await prisma.comment.findMany({
             where: {
@@ -26,3 +26,5 @@ export const commentService = {
         });
     },
 }
+
+export default commentService;

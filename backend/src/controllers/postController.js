@@ -1,5 +1,5 @@
 import { body, query, validationResult } from "express-validator";
-import postService from "../services/postService";
+import postService from "../services/postService.js";
 
 const postController = {
     getPost: async (req, res) => {
@@ -17,10 +17,10 @@ const postController = {
     // attach JWT if one exists (show all posts) else only show unhidden posts
     getAllPosts: async (req, res) => {
         try {
-            const { sort } = req.query.sort;
+            const { sort } = req.query;
             const posts = await postService.getPostsSorted(sort);
-
             if (!posts) return res.status(404).json({ message: "Page not found! "});
+            console.log(posts);
             res.status(200).json(posts);
         } catch (error) {
             console.error(error);

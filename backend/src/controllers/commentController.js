@@ -28,7 +28,7 @@ const commentController = {
         try {
             const { id } = req.params;
             await commentService.deleteComment(id);
-            res.status(200);
+            res.status(200).send();
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Error fetching comments! "});

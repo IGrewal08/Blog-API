@@ -5,6 +5,7 @@ export default function Home() {
     const [link, setLink] = useState("New");
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -17,7 +18,6 @@ export default function Home() {
                 setLoading(false);
             }
         };
-
         fetchPosts();
     }, [link]);
 

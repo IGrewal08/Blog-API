@@ -6,7 +6,6 @@ const postController = {
         try {
             const { id } = req.params;
             const post = await postService.getPostById(id);
-
             if (!post) return res.status(404).json({ message: "Page not found! "});
             res.status(200).json(post);
         } catch (error) {
@@ -20,7 +19,6 @@ const postController = {
             const { sort } = req.query;
             const posts = await postService.getPostsSorted(sort);
             if (!posts) return res.status(404).json({ message: "Page not found! "});
-            console.log(posts);
             res.status(200).json(posts);
         } catch (error) {
             console.error(error);
@@ -29,11 +27,11 @@ const postController = {
     },
     postNewPost: async (req, res) => {
         try {
-            await postService.postPost(req.body);
-            res.status(202);
+            const newPost = await postService.postPost(req.body);
+            res.status(202).json(newPost);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Error fetching post! "});
+            res.status(500).json({ message: "Error creating post!" });
         }
     },
     updatePost: async (req, res) => {

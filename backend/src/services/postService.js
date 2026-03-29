@@ -2,13 +2,15 @@ import prisma from "../config/prisma.js";
 
 const postService = {
     getPostById: async (id) => {
+        const postId = parseInt(id, 10);
+        if (isNaN(postId)) throw new Error("Invalid Post ID provided");
+
         return await prisma.post.findUnique({
             where: { 
-                id: parseInt(id), 
-                published: true 
+                id: postId,
             },
             include: {
-                comment: true
+                comments: true
             },
         });
     },
@@ -55,19 +57,23 @@ const postService = {
     },
     postPost: async (body) => {
         const { title, content, published } = body;
+        const isPublished = published === "on" || published === true;
         await prisma.post.create({
             data: {
                 title: title,
                 content: content,
-                published: published,
+                published: isPublished,
             },
         });
     },
     updatePost: async (id, body) => {
         const { title, content, published } = body;
+        const postId = parseInt(id, 10);
+        if (isNaN(postId)) throw new Error("Invalid Post ID provided");
+
         await prisma.post.update({
             where: {
-                id: id 
+                id: postId 
             },
             data: { 
                 title: title,
@@ -77,9 +83,11 @@ const postService = {
         });
     },
     deletePost: async (id) => {
+        const postId = parseInt(id, 10);
+        if (isNaN(postId)) throw new Error("Invalid Post ID provided");
         await prisma.post.delete({
             where : {
-                id: id,
+                id: postId,
             },
         });
     },

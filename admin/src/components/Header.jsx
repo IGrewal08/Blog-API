@@ -6,11 +6,11 @@ export default function Header() {
             <Link>
                 Home
             </Link>
-            <NavLink to="/about">
-                About
+            <NavLink to="/login">
+                Login
             </NavLink>
-            <NavLink to="/contact">
-                Contact
+            <NavLink to="/new">
+                New
             </NavLink>
         </>
     );

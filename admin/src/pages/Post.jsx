@@ -5,7 +5,6 @@ export default function Post() {
     const { id } = useParams();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => { 
         const fetchComments = async () => {
             try {
@@ -32,7 +31,7 @@ export default function Post() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         const formData = new FormData(e.target);
         const message = formData.get("message");
         const author = formData.get("author");
@@ -40,6 +39,7 @@ export default function Post() {
         try {
             const response = await fetch(`http://localhost:3000/api/comments/${id}`, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ author: author, message: message })
             });
 
@@ -53,6 +53,35 @@ export default function Post() {
             console.error("Submit error: ", error);
         }
     };
+
+    const handleDelete = async (e, commentId) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`http://localhost:3000/api/comments/${commentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (response.ok) {
+                setData(prev => ({
+                    ...prev,
+                    comments: prev.comments.filter(c => c.id !== commentId) 
+                }));
+            } else {
+                const errorData = await response.json();
+                alert(`Delete failed: ${errorData.message || 'Unauthorized'}`);
+            }
+        } catch (error) {
+            console.error("Delete error: ", error);
+        }
+    };
+
+    if (loading) return <div>Loading...</div>;
+    if (!data) return <div>Post not found.</div>;
 
     return (
         <>
@@ -75,26 +104,30 @@ export default function Post() {
                         <Comment 
                             key={comment.id}
                             comment={comment}
+                            onDeleteClick={handleDelete}
                         />
                     ))
                 )}
             </div>
-            <form action="http://localhost:3000/api/comments" method="POST" onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+
+            <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
                 <label htmlFor="message">Message:</label>
                 <textarea name="message" id="message" required></textarea>
                 <label htmlFor="author">Author</label>
                 <input name="author" id="author" required></input>
-                <button type="submit">Submit</button>
+                <button type="submit">Submit Comment</button>
             </form>
         </>
     );
 }
 
-function Comment({ comment }) {
+function Comment({ comment, onDeleteClick }) {
     return (
         <div style={{ borderBottom: '1px solid #eee', padding: '10px' }}>
             <p>{comment.message}</p>
             <small>By: {comment.author} | {new Date(comment.createdAt).toLocaleDateString()}</small>
+            <br />
+            <button onClick={(e) => onDeleteClick(e, comment.id)}>Delete</button>
         </div>
     );
 }

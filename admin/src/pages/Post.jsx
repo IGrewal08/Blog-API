@@ -5,6 +5,7 @@ export default function Post() {
     const { id } = useParams();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    
     useEffect(() => { 
         const fetchComments = async () => {
             try {
@@ -109,7 +110,6 @@ export default function Post() {
                     ))
                 )}
             </div>
-
             <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
                 <label htmlFor="message">Message:</label>
                 <textarea name="message" id="message" required></textarea>

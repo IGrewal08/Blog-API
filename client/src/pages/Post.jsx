@@ -32,7 +32,7 @@ export default function Post() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         const formData = new FormData(e.target);
         const message = formData.get("message");
         const author = formData.get("author");
@@ -40,6 +40,7 @@ export default function Post() {
         try {
             const response = await fetch(`http://localhost:3000/api/comments/${id}`, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ author: author, message: message })
             });
 
@@ -53,6 +54,9 @@ export default function Post() {
             console.error("Submit error: ", error);
         }
     };
+
+    if (loading) return <div>Loading...</div>;
+    if (!data) return <div>Post not found.</div>;
 
     return (
         <>
@@ -79,11 +83,11 @@ export default function Post() {
                     ))
                 )}
             </div>
-            <form action="http://localhost:3000/api/comments" method="POST" onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+            <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
                 <label htmlFor="message">Message:</label>
-                <textarea name="message" id="message" required></textarea>
+                <textarea name="message" id="message" required />
                 <label htmlFor="author">Author</label>
-                <input name="author" id="author" required></input>
+                <input name="author" id="author" required />
                 <button type="submit">Submit</button>
             </form>
         </>

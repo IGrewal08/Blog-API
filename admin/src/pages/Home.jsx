@@ -20,7 +20,6 @@ export default function Home() {
                 setLoading(false);
             }
         };
-
         fetchPosts();
     }, [sortOrder]);
 
@@ -45,7 +44,7 @@ export default function Home() {
             });
 
             if (response.ok) {
-                setPosts((prev) => prev.filter(post => post.id !== id));
+                setPosts(prev => prev.filter(posts => posts.id !== id));
             } else {
                 const errorData = await response.json();
                 alert(`Delete failed: ${errorData.message || 'Unauthorized'}`);

@@ -69,16 +69,16 @@ const postService = {
     updatePost: async (id, body) => {
         const { title, content, published } = body;
         const postId = parseInt(id, 10);
+        const isPublished = published === "on" || published === true;
         if (isNaN(postId)) throw new Error("Invalid Post ID provided");
-
         await prisma.post.update({
             where: {
                 id: postId 
             },
-            data: { 
+            data: {
                 title: title,
                 content: content,
-                published: published,
+                published: isPublished,
             },
         });
     },

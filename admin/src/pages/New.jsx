@@ -24,7 +24,7 @@ export default function New() {
             });
 
             if (!response.ok) {
-                // Check if the response is actually JSON before parsing
+                
                 const contentType = response.headers.get("content-type");
                 if (contentType && contentType.indexOf("application/json") !== -1) {
                     const errorData = await response.json();
@@ -32,7 +32,7 @@ export default function New() {
                 } else {
                     alert("Post failed: Server error");
                 }
-                return; // Stop here so we don't navigate on failure
+                return;
             }
             e.target.reset();
             navigate("/");

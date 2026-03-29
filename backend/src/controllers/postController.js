@@ -37,8 +37,9 @@ const postController = {
     updatePost: async (req, res) => {
         try {
             const { id } = req.params;
+            console.log(id);
             await postService.updatePost(id, req.body);
-            res.status(202);
+            res.status(202).send();
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Error fetching post! "});
@@ -48,7 +49,7 @@ const postController = {
         try {
             const { id } = req.params;
             await postService.deletePost(id);
-            res.status(202);
+            res.status(202).send();
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Error fetching post! "});

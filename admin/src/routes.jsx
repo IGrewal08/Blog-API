@@ -15,7 +15,7 @@ export const routes = [
             { path: "/login", element: <Login /> },
             { path: "/post/:id", element: <Post /> },
             { path: "/new", element: <New /> },
-            { path: "/edit", element: <Edit /> },
+            { path: "/edit/:id", element: <Edit /> },
         ],
         errorElement: <ErrorPage />,
     },
